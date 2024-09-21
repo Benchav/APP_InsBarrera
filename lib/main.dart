@@ -205,3 +205,57 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 }
+
+
+// Pantalla Home
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+    //    title: Text("Inicio"),
+title:  Text("Inicio", style: TextStyle(color: Colors.white),),
+        backgroundColor: const Color.fromARGB(255, 0, 171, 251),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white.withOpacity(0.8),
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+              ),
+              child: Text(
+                '    Ir al Perfil   ',
+                style: TextStyle(color: const Color.fromARGB(255, 0, 171, 251)),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProductListScreen()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white.withOpacity(0.8),
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+              ),
+              child: Text(
+                'Ver Catelogos',
+                style: TextStyle(color: const Color.fromARGB(255, 0, 171, 251)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
