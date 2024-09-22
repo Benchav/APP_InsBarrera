@@ -253,6 +253,22 @@ title:  Text("Inicio", style: TextStyle(color: Colors.white),),
                 style: TextStyle(color: const Color.fromARGB(255, 0, 171, 251)),
               ),
             ),
+             ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Hacercad()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white.withOpacity(0.8),
+                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+              ),
+              child: Text(
+                '    Contacto    ',
+                style: TextStyle(color: const Color.fromARGB(255, 0, 171, 251)),
+              ),
+            ),
           ],
         ),
       ),
