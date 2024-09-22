@@ -25,7 +25,6 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-       // title: Text("Iniciar Sesión"),
          title: Center(child: const Text("Iniciar Sesión", style: TextStyle(color: Colors.white),)),
         backgroundColor: const Color.fromARGB(255, 0, 171, 251),
       ),
@@ -119,7 +118,6 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-       // title: Text("Registro"),
   title: Text("Registrarce", style: TextStyle(color: Colors.white),),
         backgroundColor: const Color.fromARGB(255, 0, 171, 251),
       ),
@@ -206,14 +204,12 @@ class RegisterScreen extends StatelessWidget {
   }
 }
 
-
 // Pantalla Home
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-    //    title: Text("Inicio"),
 title:  Text("Inicio", style: TextStyle(color: Colors.white),),
         backgroundColor: const Color.fromARGB(255, 0, 171, 251),
       ),
@@ -291,7 +287,6 @@ class ProfileScreen extends StatelessWidget {
           children: <Widget>[
             CircleAvatar(
               radius: 60,
-            //  backgroundImage: AssetImage('assets/profile_pic.png'),
             backgroundImage: NetworkImage('https://cdn-icons-png.flaticon.com/512/3135/3135768.png'),
             ),
             SizedBox(height: 20),
@@ -316,8 +311,6 @@ class ProfileScreen extends StatelessWidget {
 // Pantalla de Lista de Productos
 class ProductListScreen extends StatelessWidget {
   const ProductListScreen({super.key});
-
-
    @override
   Widget build(BuildContext context) {
     return MaterialApp( 
@@ -394,7 +387,7 @@ class Hacercad extends StatelessWidget {
   const Hacercad({super.key});
    @override
   Widget build(BuildContext context) {
-    return MaterialApp( //este siempre debe ir
+    return MaterialApp( 
       debugShowCheckedModeBanner: false,
       theme:  ThemeData(
           useMaterial3: true,
@@ -407,7 +400,6 @@ class Hacercad extends StatelessWidget {
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
           ),          
-        //  title: Center(child: const Text("Catalogos", style: TextStyle(color: Colors.white),)),
         title: Text("Información de contacto", style: TextStyle(color: Colors.white),),
           backgroundColor: Colors.blue,
           actions: [
