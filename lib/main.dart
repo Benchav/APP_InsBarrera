@@ -205,68 +205,192 @@ class RegisterScreen extends StatelessWidget {
 }
 
 // Pantalla Home
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (index == 0) {
+      // Home
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    } else if (index == 1) {
+      // Perfil
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileScreen()));
+    } else if (index == 2) {
+      // Logout (Vuelve a la pantalla de Login)
+      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    } else if (index == 3) {
+      // Mostrar opciones adicionales
+      showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.shopping_cart),
+                title: Text('Carrito de Compras'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ShoppingCartScreen()));
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.cake),
+                title: Text('Productos'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PastryProductsScreen()));
+                },
+              ),
+               ListTile(
+                leading: Icon(Icons.contact_page),
+                title: Text('Información de contacto'),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Hacercad()));
+                },
+               ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-title:  Text("Inicio", style: TextStyle(color: Colors.white),),
+        title: Text("Inicio", style: TextStyle(color: Colors.white)),
+        backgroundColor: const Color.fromARGB(255, 0, 171, 251),
+      ),
+      body: Center(
+        child: Text('¡Bienvenido!', style: TextStyle(fontSize: 24)),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Inicio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.exit_to_app),
+            label: 'Salir',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.more_horiz),
+            label: 'Más',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+
+// Pantalla de carrito de compras
+class ShoppingCartScreen extends StatefulWidget {
+  @override
+  _ShoppingCartScreenState createState() => _ShoppingCartScreenState();
+}
+
+class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
+  int itemCount = 0;
+
+  void _incrementItem() {
+    setState(() {
+      itemCount++;
+    });
+  }
+
+  void _decrementItem() {
+    setState(() {
+      if (itemCount > 0) itemCount--;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Carrito de Compras", style: TextStyle(color: Colors.white)),
         backgroundColor: const Color.fromARGB(255, 0, 171, 251),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white.withOpacity(0.8),
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-              ),
-              child: Text(
-                '    Ir al Perfil   ',
-                style: TextStyle(color: const Color.fromARGB(255, 0, 171, 251)),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProductListScreen()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white.withOpacity(0.8),
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-              ),
-              child: Text(
-                'Ver Catelogos',
-                style: TextStyle(color: const Color.fromARGB(255, 0, 171, 251)),
-              ),
-            ),
-             ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Hacercad()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white.withOpacity(0.8),
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-              ),
-              child: Text(
-                '    Contacto    ',
-                style: TextStyle(color: const Color.fromARGB(255, 0, 171, 251)),
-              ),
+           // Image.network('https://via.placeholder.com/150'),
+           Image.network('https://png.pngtree.com/png-clipart/20210704/original/pngtree-flour-starch-wheat-food-png-image_6490608.jpg'),
+            SizedBox(height: 20),
+            Text('Harina', style: TextStyle(fontSize: 24)),
+            SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.remove),
+                  onPressed: _decrementItem,
+                ),
+                Text('$itemCount', style: TextStyle(fontSize: 24)),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: _incrementItem,
+                ),
+              ],
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// Pantalla de productos pasteleros
+class PastryProductsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Productos pasteleros", style: TextStyle(color: Colors.white)),
+        backgroundColor: const Color.fromARGB(255, 0, 171, 251),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: <Widget>[
+          ListTile(
+            leading: Icon(Icons.cake),
+            title: Text('Chocolate'),
+            subtitle: Text('30 barras.'),
+          ),
+          ListTile(
+            leading: Icon(Icons.cake),
+            title: Text('Levadura'),
+            subtitle: Text('15 tarros.'),
+          ),
+          ListTile(
+            leading: Icon(Icons.cake),
+            title: Text('Harina'),
+            subtitle: Text('26 sacos.'),
+          ),
+             ListTile(
+            leading: Icon(Icons.cake),
+            title: Text('Azucar'),
+            subtitle: Text('100 lb.'),
+          ),
+        ],
       ),
     );
   }
@@ -296,7 +420,7 @@ class ProfileScreen extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Text(
-              'Insumos BR',
+              'Juan Perez',
               style: TextStyle(fontSize: 18, color: Colors.grey[700]),
             ),
           ],
@@ -305,7 +429,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-
 
 
 // Pantalla de Lista de Productos
