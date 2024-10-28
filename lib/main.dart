@@ -8,6 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'InsBR',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -333,7 +334,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
            // Image.network('https://via.placeholder.com/150'),
-           Image.network('https://png.pngtree.com/png-clipart/20210704/original/pngtree-flour-starch-wheat-food-png-image_6490608.jpg'),
+           Image.network('https://bhgsuper.es/178-large_default/harina-de-trigo-espelta-bio-1kg-el-granero-integral.jpg'),
             SizedBox(height: 20),
             Text('Harina', style: TextStyle(fontSize: 24)),
             SizedBox(height: 10),
@@ -389,6 +390,31 @@ class PastryProductsScreen extends StatelessWidget {
             leading: Icon(Icons.cake),
             title: Text('Azucar'),
             subtitle: Text('100 lb.'),
+          ),
+          ListTile(
+            leading: Icon(Icons.cake),
+            title: Text('Polvo de hornear'),
+            subtitle: Text('18 lb.'),
+          ),
+          ListTile(
+            leading: Icon(Icons.cake),
+            title: Text('Azucar Morena'),
+            subtitle: Text('25 lb.'),
+          ),
+          ListTile(
+            leading: Icon(Icons.cake),
+            title: Text('Mantequilla'),
+            subtitle: Text('25 Barra.'),
+          ),
+          ListTile(
+            leading: Icon(Icons.cake),
+            title: Text('Chispas de caramelo'),
+            subtitle: Text('libreado.'),
+          ),
+          ListTile(
+            leading: Icon(Icons.cake),
+            title: Text('Cerezas'),
+            subtitle: Text('50 latas.'),
           ),
         ],
       ),
