@@ -6,8 +6,8 @@ class PastryProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('"Bienvenido a la app de InsumosBr"'),
-        backgroundColor: const Color.fromARGB(255, 0, 171, 251),
+        title: Text('"Bienvenido a la app de InsumosBr"',style: TextStyle(color: Colors.white)),
+        backgroundColor: const Color.fromARGB(255, 26, 171, 238),
         automaticallyImplyLeading: false, // Oculta el botón de regreso
       ),
       body: SingleChildScrollView(
