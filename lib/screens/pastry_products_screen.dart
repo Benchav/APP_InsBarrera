@@ -97,7 +97,7 @@ class _SingleCard extends StatelessWidget {
       margin: EdgeInsets.all(15),
       height: 180,
       decoration: BoxDecoration(
-          color: Color.fromRGBO(82, 200, 230, 0.6),
+          color: Color.fromRGBO(82, 183, 230, 0.6),
           borderRadius: BorderRadius.circular(20)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -29,6 +29,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color.fromARGB(255, 0, 171, 251),
+        automaticallyImplyLeading: false, // Oculta el botón de regreso
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -49,13 +50,13 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                     price: 30,
                   ),
                   _buildCartItem(
-                    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTrKGOlLfSD1U3U8JFjmCOUxtRbiHRGoJ7SA&s', // reemplaza con una URL válida
+                    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTrKGOlLfSD1U3U8JFjmCOUxtRbiHRGoJ7SA&s',
                     title: 'Mantequilla',
                     price: 30,
                   ),
-                   _buildCartItem(
-                    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg_gRr5CrN2PcndKaCQh6TGK7WOVqEfktInw&s', // reemplaza con una URL válida
-                    title: 'Azucar morena',
+                  _buildCartItem(
+                    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg_gRr5CrN2PcndKaCQh6TGK7WOVqEfktInw&s',
+                    title: 'Azúcar morena',
                     price: 30,
                   ),
                 ],
@@ -72,28 +73,27 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "\$${(itemCount * 30).toStringAsFixed(2)}", // total dinámico para el producto
+                    "\$${(itemCount * 30).toStringAsFixed(2)}",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
             ),
-        ElevatedButton(
-       onPressed: () {
-    // Acción al proceder con el pago
-      },
-        style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        backgroundColor: Colors.blueAccent, // Corrección aplicada aquí
-      ),
-       child: Center(
-       child: Text(
-       "Proceder al Pago",
-       style: TextStyle(fontSize: 18, color: Colors.white),
-      ),
-    ),
-     ),
-
+            ElevatedButton(
+              onPressed: () {
+                // Acción al proceder con el pago
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 15),
+                backgroundColor: Colors.blueAccent,
+              ),
+              child: Center(
+                child: Text(
+                  "Proceder al Pago",
+                  style: TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
+            ),
           ],
         ),
       ),
