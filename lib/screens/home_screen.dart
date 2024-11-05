@@ -10,10 +10,10 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
-  // Lista de las pantallas a mostrar en el cuerpo
   final List<Widget> _screens = [
     PastryProductsScreen(),
     ProfileScreen(),
@@ -23,11 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onItemTapped(int index) {
     if (index == 2) {
-      // Logout: Vuelve a la pantalla de Login
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => LoginScreen()));
     } else if (index == 3) {
-      // Mostrar opciones adicionales en un modal
       showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -38,8 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: Icon(Icons.shopping_cart),
                 title: Text('Carrito de Compras'),
                 onTap: () {
-                  Navigator.pop(context); // Cierra el modal
-                  // Cambia a la pantalla de Carrito de Compras y asegura el regreso a Home
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -47,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ).then((_) {
                     setState(() {
-                      _selectedIndex = 0; // Vuelve a Home después de Carrito
+                      _selectedIndex = 0;
                     });
                   });
                 },
@@ -56,8 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: Icon(Icons.contact_page),
                 title: Text('Información de contacto'),
                 onTap: () {
-                  Navigator.pop(context); // Cierra el modal
-                  // Cambia a la pantalla de Información de contacto y asegura el regreso a Home
+                  Navigator.pop(context);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -65,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ).then((_) {
                     setState(() {
-                      _selectedIndex = 0; // Vuelve a Home después de Información de contacto
+                      _selectedIndex = 0;
                     });
                   });
                 },
@@ -84,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex], // Muestra la pantalla correspondiente
+      body: _screens[_selectedIndex], // Mostrando la pantalla seleccionada
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

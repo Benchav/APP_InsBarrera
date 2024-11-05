@@ -1,61 +1,91 @@
 import 'package:flutter/material.dart';
 
-
-// Pantalla Informacion de contacto
 class Hacercad extends StatelessWidget {
   const Hacercad({super.key});
-   @override
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp( 
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme:  ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.blue,
         ),
-      ) , 
+      ),
       home: Scaffold(
         appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.all(8.0),
-          ),          
-        title: Text("Información de contacto", style: TextStyle(color: Colors.white),),
+          title: const Text(
+            "Información Insumos Barrera",
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: Colors.blue,
-          actions: [
-          ],
         ),
-        body: Center(
-          child: GridView.count(
-          primary: false,
-          padding: const EdgeInsets.all(20),
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          crossAxisCount: 2,
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(8),
-              color: Color.fromARGB(255, 148, 199, 241),
-              child: const Text("Correo", style: TextStyle(color: Colors.white),),
-            ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              color: Color.fromARGB(255, 148, 199, 241),
-              child: const Text("Telefono", style: TextStyle(color: Colors.white),),
-            ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              color: Color.fromARGB(255, 148, 199, 241),
-              child: const Text("Redes sociales", style: TextStyle(color: Colors.white)),
-            ),
-            Container(
-              padding: const EdgeInsets.all(8),
-              color: const Color.fromARGB(255, 148, 199, 241),
-              child: const Text("Pagina web", style: TextStyle(color: Colors.white),),
-            ),
-          ],
-        )
+        body: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Contáctanos",
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent,
+                ),
+              ),
+              const SizedBox(height: 20),
+              ListTile(
+                leading: Icon(Icons.email, color: Colors.blueAccent, size: 30),
+                title: const Text(
+                  "Correo electrónico",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                subtitle: const Text(
+                  "InsBarrera@gmail.com",
+                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                ),
+              ),
+              const Divider(),
+              ListTile(
+                leading: Icon(Icons.phone, color: Colors.blueAccent, size: 30),
+                title: const Text(
+                  "Teléfono",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                subtitle: const Text(
+                  "+505 1234-5678",
+                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                ),
+              ),
+              const Divider(),
+              ListTile(
+                leading: Icon(Icons.language, color: Colors.blueAccent, size: 30),
+                title: const Text(
+                  "Página web",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                subtitle: const Text(
+                  "www.insumosBR.com",
+                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                ),
+              ),
+              const Divider(),
+              ListTile(
+                leading: Icon(Icons.share, color: Colors.blueAccent, size: 30),
+                title: const Text(
+                  "Redes sociales",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                subtitle: const Text(
+                  "Facebook, Instagram, Twitter, Whatsapp",
+                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                ),
+              ),
+            ],
+          ),
         ),
-      )
+      ),
     );
   }
 }

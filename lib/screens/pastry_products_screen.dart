@@ -6,57 +6,117 @@ class PastryProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Productos pasteleros", style: TextStyle(color: Colors.white)),
+        title: Text('"Bienvenido a la app de InsumosBr"'),
         backgroundColor: const Color.fromARGB(255, 0, 171, 251),
+        automaticallyImplyLeading: false, // Oculta el botón de regreso
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.cake),
-            title: Text('Chocolate'),
-            subtitle: Text('30 barras.'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Table(
+            children: [
+              TableRow(children: [
+                _SingleCard(
+                  color: Colors.white,
+                  icon: Icons.cake_rounded,
+                  text: 'Harina',
+                ),
+                _SingleCard(
+                  color: Colors.white,
+                  icon: Icons.cake_rounded,
+                  text: 'Levadura',
+                ),
+              ]),
+              TableRow(children: [
+                _SingleCard(
+                  color: Colors.white,
+                  icon: Icons.cake_rounded,
+                  text: 'Mantequilla',
+                ),
+                _SingleCard(
+                  color: Colors.white,
+                  icon: Icons.cake_rounded,
+                  text: 'Azúcar',
+                ),
+              ]),
+              TableRow(children: [
+                _SingleCard(
+                  color: Colors.white,
+                  icon: Icons.cake_rounded,
+                  text: 'Colorante',
+                ),
+                _SingleCard(
+                  color: Colors.white,
+                  icon: Icons.cake_rounded,
+                  text: 'Crema',
+                ),
+              ]),
+              TableRow(children: [
+                _SingleCard(
+                  color: Colors.white,
+                  icon: Icons.cake_rounded,
+                  text: 'Azúcar Glass',
+                ),
+                _SingleCard(
+                  color: Colors.white,
+                  icon: Icons.cake_rounded,
+                  text: 'Chispas',
+                ),
+              ]),
+              TableRow(children: [
+                _SingleCard(
+                  color: Colors.white,
+                  icon: Icons.cake_rounded,
+                  text: 'Maní',
+                ),
+                _SingleCard(
+                  color: Colors.white,
+                  icon: Icons.cake_rounded,
+                  text: 'Rikitiksi',
+                ),
+              ]),
+            ],
           ),
-          ListTile(
-            leading: Icon(Icons.cake),
-            title: Text('Levadura'),
-            subtitle: Text('15 tarros.'),
+        ),
+      ),
+    );
+  }
+}
+
+class _SingleCard extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final String text;
+
+  const _SingleCard(
+      {super.key, required this.icon, required this.color, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(15),
+      height: 180,
+      decoration: BoxDecoration(
+          color: Color.fromRGBO(82, 200, 230, 0.6),
+          borderRadius: BorderRadius.circular(20)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            backgroundColor: this.color,
+            child: Icon(
+              this.icon,
+              size: 35,
+            ),
+            radius: 30,
           ),
-          ListTile(
-            leading: Icon(Icons.cake),
-            title: Text('Harina'),
-            subtitle: Text('26 sacos.'),
+          SizedBox(
+            height: 10,
           ),
-             ListTile(
-            leading: Icon(Icons.cake),
-            title: Text('Azucar'),
-            subtitle: Text('100 lb.'),
-          ),
-          ListTile(
-            leading: Icon(Icons.cake),
-            title: Text('Polvo de hornear'),
-            subtitle: Text('18 lb.'),
-          ),
-          ListTile(
-            leading: Icon(Icons.cake),
-            title: Text('Azucar Morena'),
-            subtitle: Text('25 lb.'),
-          ),
-          ListTile(
-            leading: Icon(Icons.cake),
-            title: Text('Mantequilla'),
-            subtitle: Text('25 Barra.'),
-          ),
-          ListTile(
-            leading: Icon(Icons.cake),
-            title: Text('Chispas de caramelo'),
-            subtitle: Text('libreado.'),
-          ),
-          ListTile(
-            leading: Icon(Icons.cake),
-            title: Text('Cerezas'),
-            subtitle: Text('50 latas.'),
-          ),
+          Text(
+            this.text,
+            style: TextStyle(color: Colors.black, fontSize: 18),
+          )
         ],
       ),
     );
