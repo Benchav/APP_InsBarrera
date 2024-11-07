@@ -77,6 +77,7 @@ class AuthService extends ChangeNotifier {
   bool isAuthenticated() {
     // Método para verificar si el usuario está autenticado leyendo el token
     // Devuelve true si hay un token guardado, de lo contrario, false.
+    // ignore: unnecessary_null_comparison
     return storage.read(key: 'token') != null;
   }
 }
