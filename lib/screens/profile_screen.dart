@@ -31,11 +31,11 @@ class ProfileScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 // Nombre de Usuario
                 Text(
-                  'Setsi',
+                  'Juan Lau',
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  '@papirico',
+                  '@Juan',
                   style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                 ),
                 SizedBox(height: 20),
@@ -51,7 +51,7 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        ProfileDetailRow(icon: Icons.email, label: 'Correo', value: 'papirey@gmail.com'),
+                        ProfileDetailRow(icon: Icons.email, label: 'Correo', value: 'juan@gmail.com'),
                         ProfileDetailRow(icon: Icons.phone, label: 'Teléfono', value: '+505 456 789'),
                         ProfileDetailRow(icon: Icons.location_on, label: 'Ubicación', value: 'Jinotepe, Nicaragua'),
                       ],
