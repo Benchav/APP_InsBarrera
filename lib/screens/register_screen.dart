@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:insumosbr/services/auth_services.dart';
+import 'package:provider/provider.dart';
 import 'home_screen.dart';
 
 // Pantalla de Registro
 class RegisterScreen extends StatelessWidget {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-  title: Text("Registrarce", style: TextStyle(color: Colors.white),),
+        title: Text("Registrarse", style: TextStyle(color: Colors.white)),
         backgroundColor: const Color.fromARGB(255, 0, 171, 251),
       ),
       body: Container(
@@ -24,6 +30,7 @@ class RegisterScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextField(
+                controller: nameController,
                 decoration: InputDecoration(
                   labelText: 'Nombre Completo',
                   labelStyle: TextStyle(color: Colors.white),
@@ -38,6 +45,7 @@ class RegisterScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   labelText: 'Correo Electrónico',
                   labelStyle: TextStyle(color: Colors.white),
@@ -52,6 +60,7 @@ class RegisterScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               TextField(
+                controller: passwordController,
                 decoration: InputDecoration(
                   labelText: 'Contraseña',
                   labelStyle: TextStyle(color: Colors.white),
@@ -67,11 +76,37 @@ class RegisterScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
-                  );
+                onPressed: () async {
+                  final authService = Provider.of<AuthService>(context, listen: false);
+                  final email = emailController.text.trim();
+                  final password = passwordController.text.trim();
+
+                  final String? errorMessage = await authService.createUser(email, password);
+
+                  if (errorMessage == null) {
+                    // Registro exitoso, navega a la pantalla principal
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    );
+                  } else {
+                    // Muestra un diálogo con el mensaje de error
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('Error'),
+                          content: Text(errorMessage),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white.withOpacity(0.8),

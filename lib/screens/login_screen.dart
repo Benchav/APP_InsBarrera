@@ -41,115 +41,115 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
+    final authService = Provider.of<AuthService>(context, listen: false);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        TextFormField(
-          autocorrect: false,
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            labelText: 'Correo Electrónico',
-            labelStyle: TextStyle(color: Colors.white),
-            filled: true,
-            fillColor: Colors.white.withOpacity(0.2),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none,
+    return Form(
+      key: loginForm.formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          TextFormField(
+            autocorrect: false,
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              labelText: 'Correo Electrónico',
+              labelStyle: TextStyle(color: Colors.white),
+              filled: true,
+              fillColor: Colors.white.withOpacity(0.2),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
             ),
+            style: TextStyle(color: Colors.white),
+            onChanged: (value) => loginForm.email = value,
+            validator: (value) {
+              String pattern =
+                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+              RegExp regExp = RegExp(pattern);
+              return regExp.hasMatch(value ?? '') ? null : 'Correo no válido';
+            },
           ),
-          style: TextStyle(color: Colors.white),
-          onChanged: (value) => loginForm.email = value,
-          validator: (value) {
-            String pattern =
-                r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-            RegExp regExp = RegExp(pattern);
-            return regExp.hasMatch(value ?? '') ? null : 'Correo no válido';
-          },
-        ),
-        SizedBox(height: 20),
-        TextFormField(
-          autocorrect: false,
-          obscureText: true,
-          decoration: InputDecoration(
-            labelText: 'Contraseña',
-            labelStyle: TextStyle(color: Colors.white),
-            filled: true,
-            fillColor: Colors.white.withOpacity(0.2),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none,
+          SizedBox(height: 20),
+          TextFormField(
+            autocorrect: false,
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Contraseña',
+              labelStyle: TextStyle(color: Colors.white),
+              filled: true,
+              fillColor: Colors.white.withOpacity(0.2),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
             ),
+            style: TextStyle(color: Colors.white),
+            onChanged: (value) => loginForm.password = value,
+            validator: (value) {
+              return (value != null && value.length >= 6)
+                  ? null
+                  : 'La contraseña debe tener al menos 6 caracteres';
+            },
           ),
-          style: TextStyle(color: Colors.white),
-          onChanged: (value) => loginForm.password = value,
-          validator: (value) {
-            return (value != null && value.length >= 6)
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: loginForm.isLoading
                 ? null
-                : 'La contraseña debe tener al menos 6 caracteres';
-          },
-        ),
-        SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: loginForm.isLoading
-              ? null
-              : () async {
-                  FocusScope.of(context).unfocus();
+                : () async {
+                    FocusScope.of(context).unfocus();
 
-                  final authService =
-                      Provider.of<AuthService>(context, listen: false);
+                    if (!loginForm.isValidForm()) return;
 
-                  if (!loginForm.isValidForm()) return;
+                    loginForm.isLoading = true;
 
-                  loginForm.isLoading = true;
-
-                  final String? errorMessage = await authService.login(
-                    loginForm.email,
-                    loginForm.password,
-                  );
-
-                  if (errorMessage == null) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    final String? errorMessage = await authService.login(
+                      loginForm.email,
+                      loginForm.password,
                     );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(errorMessage)),
-                    );
-                  }
 
-                  loginForm.isLoading = false;
-                },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white.withOpacity(0.8),
-            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+                    if (errorMessage == null) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(errorMessage)),
+                      );
+                    }
+
+                    loginForm.isLoading = false;
+                  },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white.withOpacity(0.8),
+              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Text(
+              loginForm.isLoading ? 'Espere' : 'Iniciar Sesión',
+              style: TextStyle(color: Color.fromARGB(255, 0, 171, 251)),
             ),
           ),
-          child: Text(
-            loginForm.isLoading ? 'Espere' : 'Iniciar Sesión',
-            style: TextStyle(color: Color.fromARGB(255, 0, 171, 251)),
-          ),
-        ),
-        TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => RegisterScreen()),
-            );
-          },
-          child: Text(
-            'Registrar',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RegisterScreen()),
+              );
+            },
+            child: Text(
+              'Registrar',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
-
