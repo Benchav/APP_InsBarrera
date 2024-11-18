@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
+import 'hacerad_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
@@ -65,7 +66,12 @@ class ProfileScreen extends StatelessWidget {
                 Column(
                   children: [
                     ProfileButton(icon: Icons.settings, label: 'Configuración de Cuenta', onTap: () {}),
-                    ProfileButton(icon: Icons.security, label: 'Privacidad', onTap: () {}),
+                    ProfileButton(icon: Icons.security, label: 'Contacto', onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => Hacercad()),
+                       );
+                    }),
                     ProfileButton(icon: Icons.logout, label: 'Cerrar Sesión', onTap: () {
                        Navigator.pushReplacement(
                           context,

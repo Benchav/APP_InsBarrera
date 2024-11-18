@@ -3,13 +3,13 @@ import 'profile_screen.dart';
 import 'shopping_cart_screen.dart';
 import 'pastry_products_screen.dart';
 import 'hacerad_screen.dart';
+import 'favorite_cart.screen.dart';
 import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
-
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
@@ -19,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ProfileScreen(),
     ShoppingCartScreen(),
     Hacercad(),
+    WishlistScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -58,6 +59,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => Hacercad(),
+                    ),
+                  ).then((_) {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  });
+                },
+              ),
+                     ListTile(
+                leading: Icon(Icons.favorite),
+                title: Text('Lista de deseos'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => WishlistScreen(),
                     ),
                   ).then((_) {
                     setState(() {

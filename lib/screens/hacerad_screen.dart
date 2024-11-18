@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:insumosbr/screens/home_screen.dart';
+import 'profile_screen.dart';
 
 class Hacercad extends StatelessWidget {
   const Hacercad({super.key});
@@ -20,6 +22,15 @@ class Hacercad extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
           backgroundColor: Colors.blue,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+              );
+            },
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -36,7 +47,7 @@ class Hacercad extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ListTile(
-                leading: Icon(Icons.email, color: Colors.blueAccent, size: 30),
+                leading: const Icon(Icons.email, color: Colors.blueAccent, size: 30),
                 title: const Text(
                   "Correo electrónico",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
@@ -48,7 +59,7 @@ class Hacercad extends StatelessWidget {
               ),
               const Divider(),
               ListTile(
-                leading: Icon(Icons.phone, color: Colors.blueAccent, size: 30),
+                leading: const Icon(Icons.phone, color: Colors.blueAccent, size: 30),
                 title: const Text(
                   "Teléfono",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
@@ -60,7 +71,7 @@ class Hacercad extends StatelessWidget {
               ),
               const Divider(),
               ListTile(
-                leading: Icon(Icons.language, color: Colors.blueAccent, size: 30),
+                leading: const Icon(Icons.language, color: Colors.blueAccent, size: 30),
                 title: const Text(
                   "Página web",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
@@ -72,7 +83,7 @@ class Hacercad extends StatelessWidget {
               ),
               const Divider(),
               ListTile(
-                leading: Icon(Icons.share, color: Colors.blueAccent, size: 30),
+                leading: const Icon(Icons.share, color: Colors.blueAccent, size: 30),
                 title: const Text(
                   "Redes sociales",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
