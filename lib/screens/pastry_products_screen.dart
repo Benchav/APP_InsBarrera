@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'productdetails_screen.dart';
 // Pantalla de productos pasteleros
 class PastryProductsScreen extends StatelessWidget {
   @override
@@ -78,40 +78,56 @@ class _SingleCard extends StatelessWidget {
   final String text;
 
   const _SingleCard({
-    super.key, 
-    required this.imageUrl, 
+    super.key,
+    required this.imageUrl,
     required this.text,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(15),
-      height: 180,
-      decoration: BoxDecoration(
-        color: Color.fromRGBO(82, 183, 230, 0.6),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(30),
-            child: Image.network(
-              this.imageUrl,
-              height: 60,
-              width: 60,
-              fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDetailScreen(
+              imageUrl: imageUrl,
+              title: text,
+              brand: 'Suli', // Ejemplo
+              unit: '20 lb', // Ejemplo
+              description: 'Especial para repostería.', // Ejemplo
+              expirationDate: '24/12/2024', // Ejemplo
+              price: 30.0, // Ejemplo
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            this.text,
-            style: TextStyle(color: Colors.black, fontSize: 18),
-          ),
-        ],
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.all(15),
+        height: 180,
+        decoration: BoxDecoration(
+          color: Color.fromRGBO(82, 183, 230, 0.6),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: Image.network(
+                this.imageUrl,
+                height: 60,
+                width: 60,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              this.text,
+              style: TextStyle(color: Colors.black, fontSize: 18),
+            ),
+          ],
+        ),
       ),
     );
   }

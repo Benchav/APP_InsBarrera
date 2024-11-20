@@ -39,7 +39,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color.fromARGB(255, 0, 171, 251),
-        automaticallyImplyLeading: false, // Oculta el botón de regreso
+   //     automaticallyImplyLeading: false, // Oculta el botón de regreso
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

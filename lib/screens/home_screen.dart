@@ -3,8 +3,10 @@ import 'profile_screen.dart';
 import 'shopping_cart_screen.dart';
 import 'pastry_products_screen.dart';
 import 'hacerad_screen.dart';
+import 'purchaseH_screen.dart';
 import 'favorite_cart.screen.dart';
 import 'login_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -20,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ShoppingCartScreen(),
     Hacercad(),
     WishlistScreen(),
+    PurchaseHistoryScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -50,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
               ),
-              ListTile(
+           /*   ListTile(
                 leading: Icon(Icons.contact_page),
                 title: Text('Información de contacto'),
                 onTap: () {
@@ -66,8 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     });
                   });
                 },
-              ),
-                     ListTile(
+              ),*/
+                ListTile(
                 leading: Icon(Icons.favorite),
                 title: Text('Lista de deseos'),
                 onTap: () {
@@ -76,6 +79,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => WishlistScreen(),
+                    ),
+                  ).then((_) {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  });
+                },
+              ),
+                     ListTile(
+                leading: Icon(Icons.shopify_sharp),
+                title: Text('Historial de compra'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PurchaseHistoryScreen(),
                     ),
                   ).then((_) {
                     setState(() {
