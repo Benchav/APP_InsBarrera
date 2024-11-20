@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'payment_screen.dart';
 
 class ShoppingCartScreen extends StatefulWidget {
   @override
@@ -81,7 +82,10 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                // Acción al proceder con el pago
+                Navigator.push(
+                context,
+               MaterialPageRoute(builder: (context) => PaymentScreen()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 15),

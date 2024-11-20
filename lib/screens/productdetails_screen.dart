@@ -70,7 +70,13 @@ class ProductDetailScreen extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      // Lógica para añadir al carrito
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Añadido al carrito'),
+                          backgroundColor: Colors.green,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 15),
@@ -83,7 +89,13 @@ class ProductDetailScreen extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      // Lógica para añadir a la lista de deseos
+                       ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Añadido a lista de deseos'),
+                          backgroundColor: const Color.fromARGB(255, 76, 152, 175),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 15),

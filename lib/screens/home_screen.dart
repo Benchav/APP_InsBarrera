@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'profile_screen.dart';
 import 'shopping_cart_screen.dart';
@@ -6,7 +8,6 @@ import 'hacerad_screen.dart';
 import 'purchaseH_screen.dart';
 import 'favorite_cart.screen.dart';
 import 'login_screen.dart';
-
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,24 +20,21 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     PastryProductsScreen(),
     ProfileScreen(),
-    ShoppingCartScreen(),
+    ShoppingCartScreen(), // Cambiado para mostrar la pantalla del carrito
     Hacercad(),
     WishlistScreen(),
     PurchaseHistoryScreen()
   ];
 
   void _onItemTapped(int index) {
-    if (index == 2) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginScreen()));
-    } else if (index == 3) {
+    if (index == 3) {
       showModalBottomSheet(
         context: context,
         builder: (context) {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              ListTile(
+             /* ListTile(
                 leading: Icon(Icons.shopping_cart),
                 title: Text('Carrito de Compras'),
                 onTap: () {
@@ -52,25 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     });
                   });
                 },
-              ),
-           /*   ListTile(
-                leading: Icon(Icons.contact_page),
-                title: Text('Información de contacto'),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Hacercad(),
-                    ),
-                  ).then((_) {
-                    setState(() {
-                      _selectedIndex = 0;
-                    });
-                  });
-                },
               ),*/
-                ListTile(
+              ListTile(
                 leading: Icon(Icons.favorite),
                 title: Text('Lista de deseos'),
                 onTap: () {
@@ -87,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
               ),
-                     ListTile(
+              ListTile(
                 leading: Icon(Icons.shopify_sharp),
                 title: Text('Historial de compra'),
                 onTap: () {
@@ -103,6 +84,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     });
                   });
                 },
+              ),
+              ListTile(
+                 leading: Icon(Icons.exit_to_app),
+                 title: Text('Salir'),
+                 onTap: () {
+              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+                (Route<dynamic> route) => false, // Elimina todas las rutas anteriores
+                   );
+                 },  
               ),
             ],
           );
@@ -129,9 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.person),
             label: 'Perfil',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.exit_to_app),
-            label: 'Salir',
+          BottomNavigationBarItem( // Cambiado aquí
+            icon: Icon(Icons.shopping_cart),
+            label: 'Carrito',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.more_horiz),
