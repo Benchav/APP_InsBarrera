@@ -74,7 +74,7 @@ class ProductDetailScreen extends StatelessWidget {
                         SnackBar(
                           content: Text('Añadido al carrito'),
                           backgroundColor: Colors.green,
-                          duration: Duration(seconds: 2),
+                          duration: Duration(seconds: 1),
                         ),
                       );
                     },
@@ -93,7 +93,7 @@ class ProductDetailScreen extends StatelessWidget {
                         SnackBar(
                           content: Text('Añadido a lista de deseos'),
                           backgroundColor: const Color.fromARGB(255, 76, 152, 175),
-                          duration: Duration(seconds: 2),
+                          duration: Duration(seconds: 1),
                         ),
                       );
                     },

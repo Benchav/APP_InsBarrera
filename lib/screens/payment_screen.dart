@@ -28,7 +28,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         SnackBar(
         content: Text('Pago procesado exitosamente'),
         backgroundColor: Colors.green,
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: 1),
         ),
       );
       Navigator.pop(context); // Volver al carrito después de pagar
