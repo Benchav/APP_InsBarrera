@@ -6,9 +6,11 @@ class PastryProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          '"Bienvenido usuario"',
+        title: Center(
+          child: Text(
+          'Bienvenido usuario',
           style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
         ),
         backgroundColor: const Color.fromARGB(255, 0, 171, 251),
         automaticallyImplyLeading: false, // Oculta el botón de regreso

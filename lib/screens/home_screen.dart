@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     PastryProductsScreen(),
     ProfileScreen(),
-    ShoppingCartScreen(), // Cambiado para mostrar la pantalla del carrito
+    ShoppingCartScreen(), 
     Hacercad(),
     WishlistScreen(),
     PurchaseHistoryScreen()

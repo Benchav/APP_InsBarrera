@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:insumosbr/services/wishlist_provider.dart';
 import 'screens/login_screen.dart';
 import './services/index.dart';
+import './services/cart_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -13,6 +15,8 @@ class AppState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+         ChangeNotifierProvider(create: (_) => WishlistProvider()),
       ],
       child: MyApp(),
     );

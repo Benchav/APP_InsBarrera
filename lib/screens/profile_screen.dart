@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insumosbr/screens/payment_screen.dart';
 import 'login_screen.dart';
 import 'hacerad_screen.dart';
 
@@ -12,7 +13,8 @@ class ProfileScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Perfil", style: TextStyle(color: Colors.white)),
+          title: Center(
+            child:Text( "Perfil", style: TextStyle(color: Colors.white)),),
           backgroundColor: const Color.fromARGB(255, 0, 171, 251),
           automaticallyImplyLeading: false, // Oculta el botón de regreso
         ),
@@ -65,7 +67,12 @@ class ProfileScreen extends StatelessWidget {
                 // Botones de Configuración
                 Column(
                   children: [
-                    ProfileButton(icon: Icons.settings, label: 'Configuración de Cuenta', onTap: () {}),
+                    ProfileButton(icon: Icons.payment, label: 'Forma de pago', onTap: () {
+                       Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => PaymentScreen()),
+                       );
+                    }),
                     ProfileButton(icon: Icons.security, label: 'Contacto', onTap: () {
                       Navigator.pushReplacement(
                           context,

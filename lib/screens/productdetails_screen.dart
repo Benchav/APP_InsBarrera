@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../services/cart_provider.dart';
+import '../services/wishlist_provider.dart'; // Importa el WishlistProvider
+import '../models/cart_item.dart';
+import '../models/wishlist_item.dart'; // Importa el modelo de WishlistItem
 
 class ProductDetailScreen extends StatelessWidget {
   final String imageUrl;
@@ -24,7 +29,10 @@ class ProductDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalles de $title',style: TextStyle(color: Colors.white),),
+        title: Text(
+          'Detalles de $title',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: const Color.fromARGB(255, 26, 171, 238),
       ),
       body: Padding(
@@ -62,7 +70,10 @@ class ProductDetailScreen extends StatelessWidget {
             SizedBox(height: 8),
             Text(
               'Precio: \$${price.toStringAsFixed(2)}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blueAccent),
+              style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent),
             ),
             Spacer(),
             Row(
@@ -70,6 +81,15 @@ class ProductDetailScreen extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
+                      final cartProvider =
+                          Provider.of<CartProvider>(context, listen: false);
+                      cartProvider.addItem(
+                        CartItem(
+                          title: title,
+                          imageUrl: imageUrl,
+                          price: price,
+                        ),
+                      );
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Añadido al carrito'),
@@ -82,26 +102,52 @@ class ProductDetailScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 15),
                       backgroundColor: const Color.fromARGB(255, 0, 171, 251),
                     ),
-                    child: Text('Añadir al carrito',style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      'Añadir al carrito',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
                 SizedBox(width: 16),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Añadido a lista de deseos'),
-                          backgroundColor: const Color.fromARGB(255, 76, 152, 175),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
+                      final wishlistProvider =
+                          Provider.of<WishlistProvider>(context, listen: false);
+
+                      if (!wishlistProvider.isInWishlist(title)) {
+                        wishlistProvider.addToWishlist(WishlistItem(
+                          title: title,
+                          imageUrl: imageUrl,
+                          price: price,
+                        ));
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Añadido a lista de deseos'),
+                            backgroundColor: const Color.fromARGB(255, 76, 152, 175),
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                'Este producto ya está en la lista de deseos'),
+                            backgroundColor: Colors.red,
+                            duration: Duration(seconds: 1),
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 15),
                       backgroundColor: const Color.fromARGB(255, 0, 171, 251),
                     ),
-                    child: Text('Añadir lista de deseos',style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      'Añadir lista de deseos',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ],

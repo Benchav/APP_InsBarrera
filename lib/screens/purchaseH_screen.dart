@@ -1,116 +1,121 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../services/cart_provider.dart';
 
 class PurchaseHistoryScreen extends StatelessWidget {
-  final List<Map<String, dynamic>> purchaseHistory = [
-  {
-    'imageUrl': 'https://bhgsuper.es/178-large_default/harina-de-trigo-espelta-bio-1kg-el-granero-integral.jpg',
-    'title': 'Harina',
-    'quantity': 2,
-    'date': '15/11/2024',
-    'price': 20.0,
-  },
-  {
-    'imageUrl': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTrKGOlLfSD1U3U8JFjmCOUxtRbiHRGoJ7SA&s',
-    'title': 'Mantequilla',
-    'quantity': 1,
-    'date': '10/11/2024',
-    'price': 25.0,
-  },
-  {
-    'imageUrl': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg_gRr5CrN2PcndKaCQh6TGK7WOVqEfktInw&s',
-    'title': 'Azúcar morena',
-    'quantity': 3,
-    'date': '05/11/2024',
-    'price': 25.0,
-  },
-];
-
-
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+    final invoices = cartProvider.invoices;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Historial de compras",
-          style: TextStyle(color: Colors.white),
-        ),
+        title: Text("Historial de compras",
+          style: TextStyle(color: Colors.white, fontSize: 20),),
         backgroundColor: const Color.fromARGB(255, 0, 171, 251),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Compras anteriores",
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.blueAccent),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-             child: ListView.builder(
-             itemCount: purchaseHistory.length,
-             itemBuilder: (context, index) {
-           final item = purchaseHistory[index];
-            return _buildPurchaseItem(
-            imageUrl: item['imageUrl'],
-            title: item['title'],
-            quantity: item['quantity'],
-            date: item['date'],
-            price: item['price'],
-                 );
-               },
-             ),
-            ),
-          ],
-        ),
+        child: invoices.isEmpty
+            ? Center(
+                child: Text(
+                  "No hay facturas disponibles.",
+                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                ),
+              )
+            : ListView.builder(
+                itemCount: invoices.length,
+                itemBuilder: (context, index) {
+                  final invoice = invoices[index];
+                  return Card(
+                    elevation: 4,
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Factura: ${invoice.invoiceCode}",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text("Fecha: ${invoice.date}"),
+                          SizedBox(height: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: invoice.products.map((product) {
+                              return Row(
+                                children: [
+                                  Image.network(
+                                    product['imageUrl'],
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      "${product['title']} (x${product['quantity']})",
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                  Text(
+                                    "\$${(product['price'] * product['quantity']).toStringAsFixed(2)}",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "Total: \$${invoice.totalPrice.toStringAsFixed(2)}",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueAccent,
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: IconButton(
+                              icon: Icon(Icons.delete, color: Colors.red),
+                              onPressed: () {
+                                // Confirmar antes de eliminar
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text("Eliminar factura"),
+                                    content: Text(
+                                        "¿Estás seguro de que deseas eliminar esta factura?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: Text("Cancelar"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          cartProvider.removeInvoice(index);
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("Eliminar"),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
       ),
     );
   }
-
-  Widget _buildPurchaseItem({required String imageUrl, required String title, required int quantity, required String date, required double price,}) {
-     return Card(
-     elevation: 4,
-     margin: EdgeInsets.symmetric(vertical: 10),
-     child: Padding(
-       padding: const EdgeInsets.all(16.0),
-       child: Row(
-        children: [
-          Image.network(
-            imageUrl,
-            width: 80,
-            height: 80,
-            fit: BoxFit.cover,
-          ),
-          SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  "Cantidad: $quantity",
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  "Fecha: $date",
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  "Precio: \$${(price * quantity).toStringAsFixed(2)}",
-                  style: TextStyle(fontSize: 16, color: Colors.blueAccent),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
- }
 }
