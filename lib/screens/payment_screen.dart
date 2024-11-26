@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart'; // Importar el HomeScreen
+import 'package:flutter/services.dart';
+import 'home_screen.dart';
 
 class PaymentScreen extends StatefulWidget {
   @override
@@ -8,6 +9,8 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  // Controladores
   final _cardNumberController = TextEditingController();
   final _expiryDateController = TextEditingController();
   final _cvvController = TextEditingController();
@@ -24,7 +27,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   void _processPayment() {
     if (_formKey.currentState!.validate()) {
-      // Mostrar mensaje de éxito
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Se guardó correctamente el método de pago'),
@@ -33,12 +35,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
       );
 
-      // Redirigir al Home después de un pequeño retraso
       Future.delayed(Duration(seconds: 2), () {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()), // Redirigir a tu HomeScreen
-          (route) => false, // Eliminar todas las rutas anteriores
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+          (route) => false,
         );
       });
     }
@@ -48,20 +49,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // Cuando el usuario intente retroceder, redirigir al HomeScreen
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()), // Redirigir al HomeScreen
-          (route) => false, // Eliminar todas las rutas anteriores
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+          (route) => false,
         );
-        return false; // Evitar el comportamiento predeterminado (que cierra la pantalla)
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(
           title: Center(
             child: Text(
-            'Forma de Pago',
-            style: TextStyle(color: Colors.white),),
+              'Forma de Pago',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           backgroundColor: const Color.fromARGB(255, 0, 171, 251),
           elevation: 0,
@@ -69,7 +70,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // Header decorativo
               Container(
                 width: double.infinity,
                 height: 100,
@@ -92,43 +92,72 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      // Campo: Número de tarjeta
+                      // Número de tarjeta
                       _buildTextFormField(
                         controller: _cardNumberController,
                         labelText: 'Número de tarjeta',
                         hintText: '1234 5678 9012 3456',
                         icon: Icons.credit_card,
                         keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          _CardNumberInputFormatter(),
+                        ],
                         validator: (value) {
-                          if (value == null || value.isEmpty || value.length != 16) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.replaceAll(' ', '').length != 16) {
                             return 'Ingrese un número de tarjeta válido (16 dígitos)';
                           }
                           return null;
                         },
                       ),
                       SizedBox(height: 16),
-                      // Campo: Fecha de expiración
+                      // Fecha de expiración
                       _buildTextFormField(
                         controller: _expiryDateController,
                         labelText: 'Fecha de expiración (MM/AA)',
                         hintText: 'MM/AA',
                         icon: Icons.calendar_today,
-                        keyboardType: TextInputType.datetime,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          _ExpiryDateInputFormatter(),
+                        ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Ingrese la fecha de expiración';
+                          }
+                          if (!RegExp(r'^(0[1-9]|1[0-2])/[0-9]{2}$').hasMatch(value)) {
+                            return 'Ingrese una fecha válida (MM/AA)';
+                          }
+                          // Validar fecha no pasada
+                          final now = DateTime.now();
+                          final parts = value.split('/');
+                          if (parts.length == 2) {
+                            final month = int.tryParse(parts[0]);
+                            final year = int.tryParse('20${parts[1]}');
+                            if (month == null ||
+                                year == null ||
+                                DateTime(year, month).isBefore(DateTime(now.year, now.month))) {
+                              return 'La fecha no puede estar en el pasado';
+                            }
                           }
                           return null;
                         },
                       ),
                       SizedBox(height: 16),
-                      // Campo: CVV
+                      // CVV
                       _buildTextFormField(
                         controller: _cvvController,
                         labelText: 'CVV',
                         hintText: '123',
                         icon: Icons.lock,
                         keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(3),
+                        ],
                         validator: (value) {
                           if (value == null || value.isEmpty || value.length != 3) {
                             return 'Ingrese un CVV válido (3 dígitos)';
@@ -137,7 +166,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         },
                       ),
                       SizedBox(height: 16),
-                      // Campo: Nombre del titular
+                      // Nombre del titular
                       _buildTextFormField(
                         controller: _cardHolderNameController,
                         labelText: 'Nombre del titular',
@@ -152,7 +181,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         },
                       ),
                       SizedBox(height: 24),
-                      // Botón de pago
                       ElevatedButton(
                         onPressed: _processPayment,
                         style: ElevatedButton.styleFrom(
@@ -191,11 +219,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
     required String hintText,
     required IconData icon,
     required TextInputType keyboardType,
+    List<TextInputFormatter>? inputFormatters,
     required String? Function(String?) validator,
   }) {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
@@ -211,6 +241,48 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
       ),
       validator: validator,
+    );
+  }
+}
+
+// Formateador de número de tarjeta
+class _CardNumberInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final text = newValue.text.replaceAll(' ', '');
+    final newText = text.replaceAllMapped(
+      RegExp(r'.{1,4}'),
+      (match) => '${match.group(0)} ',
+    );
+    return newValue.copyWith(
+      text: newText.trimRight(),
+      selection: TextSelection.collapsed(offset: newText.trimRight().length),
+    );
+  }
+}
+
+// Formateador de fecha MM/AA
+class _ExpiryDateInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final text = newValue.text.replaceAll('/', '');
+    final buffer = StringBuffer();
+
+    for (int i = 0; i < text.length; i++) {
+      if (i == 2) buffer.write('/');
+      buffer.write(text[i]);
+    }
+
+    final newText = buffer.toString();
+    return newValue.copyWith(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
     );
   }
 }

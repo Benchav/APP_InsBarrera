@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/cart_provider.dart';
-import '../services/wishlist_provider.dart'; // Importa el WishlistProvider
+import '../services/wishlist_provider.dart'; 
 import '../models/cart_item.dart';
-import '../models/wishlist_item.dart'; // Importa el modelo de WishlistItem
+import '../models/wishlist_item.dart'; 
 
 class ProductDetailScreen extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String brand;
-  final String? unit; // Cambiado a opcional
+  final String? unit; 
   final String description;
   final String expirationDate;
   final double price;
@@ -19,7 +19,7 @@ class ProductDetailScreen extends StatefulWidget {
     required this.imageUrl,
     required this.title,
     required this.brand,
-    this.unit, // Ahora es opcional
+    this.unit, 
     required this.description,
     required this.expirationDate,
     required this.price,
