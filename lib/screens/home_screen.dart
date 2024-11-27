@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insumosbr/screens/categories_screen.dart';
 import 'profile_screen.dart';
 import 'shopping_cart_screen.dart';
 import 'pastry_products_screen.dart';
@@ -21,7 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
     ShoppingCartScreen(), 
     Hacercad(),
     WishlistScreen(),
-    PurchaseHistoryScreen()
+    PurchaseHistoryScreen(),
+    CategoryScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -32,23 +34,6 @@ class _HomeScreenState extends State<HomeScreen> {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-             /* ListTile(
-                leading: Icon(Icons.shopping_cart),
-                title: Text('Carrito de Compras'),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ShoppingCartScreen(),
-                    ),
-                  ).then((_) {
-                    setState(() {
-                      _selectedIndex = 0;
-                    });
-                  });
-                },
-              ),*/
               ListTile(
                 leading: Icon(Icons.favorite),
                 title: Text('Lista de deseos'),
@@ -91,10 +76,22 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => LoginScreen()),
-                (Route<dynamic> route) => false, // Elimina todas las rutas anteriores
+                (Route<dynamic> route) => false, 
                    );
                  },  
               ),
+             /* ListTile(
+                 leading: Icon(Icons.chair_alt_sharp),
+                 title: Text('Categorias'),
+                 onTap: () {
+              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => CategoryScreen()),
+                (Route<dynamic> route) => false, 
+                   );
+                 },  
+              ),*/
             ],
           );
         },

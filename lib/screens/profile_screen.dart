@@ -38,7 +38,7 @@ class ProfileScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  '@Juan',
+                  'Usuario',
                   style: TextStyle(fontSize: 16, color: Colors.grey[600]),
                 ),
                 SizedBox(height: 20),
@@ -79,6 +79,12 @@ class ProfileScreen extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => Hacercad()),
                        );
                     }),
+ 
+
+
+
+
+
                     ProfileButton(icon: Icons.logout, label: 'Cerrar Sesión', onTap: () {
                        Navigator.pushReplacement(
                           context,
