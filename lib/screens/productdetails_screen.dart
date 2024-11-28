@@ -36,9 +36,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     'Unidad',
     'Libra',
     'Gramos',
-    'Kilos',
-    'Litros',
-    'Mililitros',
   ];
 
   @override

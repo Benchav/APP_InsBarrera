@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:insumosbr/screens/PaymentDetailsScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home_screen.dart';
+
 
 class PaymentScreen extends StatefulWidget {
   @override
@@ -25,8 +28,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
     super.dispose();
   }
 
-  void _processPayment() {
+  void _processPayment() async {
     if (_formKey.currentState!.validate()) {
+      // Guardar los datos localmente
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('cardNumber', _cardNumberController.text);
+      await prefs.setString('expiryDate', _expiryDateController.text);
+      await prefs.setString('cvv', _cvvController.text);
+      await prefs.setString('cardHolderName', _cardHolderNameController.text);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Se guardó correctamente el método de pago'),
@@ -38,7 +48,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       Future.delayed(Duration(seconds: 2), () {
         Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => PaymentDetailsScreen()),
           (route) => false,
         );
       });
@@ -92,7 +102,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      // Número de tarjeta
                       _buildTextFormField(
                         controller: _cardNumberController,
                         labelText: 'Número de tarjeta',
@@ -113,7 +122,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         },
                       ),
                       SizedBox(height: 16),
-                      // Fecha de expiración
                       _buildTextFormField(
                         controller: _expiryDateController,
                         labelText: 'Fecha de expiración (MM/AA)',
@@ -131,7 +139,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           if (!RegExp(r'^(0[1-9]|1[0-2])/[0-9]{2}$').hasMatch(value)) {
                             return 'Ingrese una fecha válida (MM/AA)';
                           }
-                          // Validar fecha no pasada
                           final now = DateTime.now();
                           final parts = value.split('/');
                           if (parts.length == 2) {
@@ -147,7 +154,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         },
                       ),
                       SizedBox(height: 16),
-                      // CVV
                       _buildTextFormField(
                         controller: _cvvController,
                         labelText: 'CVV',
@@ -166,7 +172,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         },
                       ),
                       SizedBox(height: 16),
-                      // Nombre del titular
                       _buildTextFormField(
                         controller: _cardHolderNameController,
                         labelText: 'Nombre del titular',
@@ -196,7 +201,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             Icon(Icons.payment, color: Colors.white),
                             SizedBox(width: 10),
                             Text(
-                              'Pagar ahora',
+                              'Guardar',
                               style: TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ],
@@ -245,7 +250,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 }
 
-// Formateador de número de tarjeta
 class _CardNumberInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
@@ -264,7 +268,6 @@ class _CardNumberInputFormatter extends TextInputFormatter {
   }
 }
 
-// Formateador de fecha MM/AA
 class _ExpiryDateInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(

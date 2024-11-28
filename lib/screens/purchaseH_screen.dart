@@ -10,8 +10,10 @@ class PurchaseHistoryScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Historial de compras",
-          style: TextStyle(color: Colors.white, fontSize: 20),),
+        title: Text(
+          "Historial de compras",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
         backgroundColor: const Color.fromARGB(255, 0, 171, 251),
       ),
       body: Padding(
@@ -27,6 +29,14 @@ class PurchaseHistoryScreen extends StatelessWidget {
                 itemCount: invoices.length,
                 itemBuilder: (context, index) {
                   final invoice = invoices[index];
+                  final double subtotal = invoice.products.fold(
+                    0.0,
+                    (sum, product) =>
+                        sum + (product['price'] * product['quantity']),
+                  );
+                  final double iva = subtotal * 0.15; // 15% IVA
+                  final double total = subtotal + iva;
+
                   return Card(
                     elevation: 4,
                     margin: EdgeInsets.symmetric(vertical: 10),
@@ -44,40 +54,87 @@ class PurchaseHistoryScreen extends StatelessWidget {
                           ),
                           Text("Fecha: ${invoice.date}"),
                           SizedBox(height: 10),
+                          Divider(),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: invoice.products.map((product) {
-                              return Row(
-                                children: [
-                                  Image.network(
-                                    product['imageUrl'],
-                                    width: 50,
-                                    height: 50,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  SizedBox(width: 8),
-                                  Expanded(
-                                    child: Text(
-                                      "${product['title']} (x${product['quantity']})",
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0),
+                                child: Row(
+                                  children: [
+                                    Image.network(
+                                      product['imageUrl'],
+                                      width: 50,
+                                      height: 50,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        "${product['title']} (x${product['quantity']})",
+                                        style: TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                                    Text(
+                                      "\$${(product['price'] * product['quantity']).toStringAsFixed(2)}",
                                       style: TextStyle(fontSize: 16),
                                     ),
-                                  ),
-                                  Text(
-                                    "\$${(product['price'] * product['quantity']).toStringAsFixed(2)}",
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               );
                             }).toList(),
                           ),
+                          Divider(),
                           SizedBox(height: 10),
-                          Text(
-                            "Total: \$${invoice.totalPrice.toStringAsFixed(2)}",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blueAccent,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Subtotal:",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                "\$${subtotal.toStringAsFixed(2)}",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "IVA (15%):",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                "\$${iva.toStringAsFixed(2)}",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Total:",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                              Text(
+                                "\$${total.toStringAsFixed(2)}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                            ],
                           ),
                           Align(
                             alignment: Alignment.centerRight,

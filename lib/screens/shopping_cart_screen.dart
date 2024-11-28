@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:insumosbr/screens/purchaseH_screen.dart';
 import 'package:insumosbr/services/cart_provider.dart';
 import 'package:provider/provider.dart';
-import 'payment_screen.dart'; // Importa tu pantalla de forma de pago
+// Importa tu pantalla de forma de pago
 
 class ShoppingCartScreen extends StatelessWidget {
   @override

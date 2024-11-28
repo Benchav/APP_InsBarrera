@@ -200,7 +200,7 @@ class _PastryProductCard extends StatelessWidget {
                     builder: (context) => ProductDetailScreen(
                       imageUrl: imageUrl,
                       title: productName,
-                      brand: 'Marca ejemplo',
+                      brand: 'Suli',
                       unit: 'Unidad',
                       description: category.descripcion,
                       expirationDate: '2025-12-31',

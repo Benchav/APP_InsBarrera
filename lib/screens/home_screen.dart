@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:insumosbr/screens/PaymentDetailsScreen.dart';
 import 'profile_screen.dart';
 import 'shopping_cart_screen.dart';
 import 'pastry_products_screen.dart';
@@ -58,6 +59,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => PurchaseHistoryScreen(),
+                    ),
+                  ).then((_) {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  });
+                },
+              ),
+                    ListTile(
+                leading: Icon(Icons.credit_card),
+                title: Text('Metodo de pago'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PaymentDetailsScreen(),
                     ),
                   ).then((_) {
                     setState(() {
